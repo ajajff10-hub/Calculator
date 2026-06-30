@@ -179,7 +179,10 @@ body {
     color: white;
     font-size: 0.95rem;
     font-weight: 600;
+    width: auto;
+    padding: 12px 20px;
 }
+
 
 .btn-function:hover {
     background: var(--primary-light);
