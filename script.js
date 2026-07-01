@@ -31,6 +31,5 @@ function operate(num1, operator, num2) {
             return "Invalid Operator";
     }
 }
-operate('+', 5, 3); 
-operate('*', 4, 3); 
-operate('/', 10, 0);
+operate(5, '+', 3);
+operate(10, '/', 2);
