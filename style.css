@@ -178,9 +178,9 @@ body {
     grid-row: span 2;
     height: 100%; 
     aspect-ratio: auto;
-    background: var(--accent);
-    color: white;
-    font-weight: 700;
+}
+.btn-equals:hover {
+    background: var(--accent-light);
 }
 .btn-function {
     background: var(--primary);
