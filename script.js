@@ -138,3 +138,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateDisplay();
 });
+window.addEventListener('keydown', (e) => {
+        if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
+            appendNumber(e.key);
+            updateDisplay();
+        }
+        
+        if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+            chooseOperation(e.key);
+            updateDisplay();
+        }
+        
+
+            if (e.key === 'Enter' || e.key === '=') {
+            e.preventDefault();  
+            compute();
+            updateDisplay();
+        }
+        
+        if (e.key === 'Backspace') {
+            deleteNumber();
+            updateDisplay();
+        }
+        
+        if (e.key === 'Escape') {
+            clear();
+            updateDisplay();
+        }
+    });
