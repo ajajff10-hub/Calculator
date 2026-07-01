@@ -136,9 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    updateDisplay();
-});
-window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e) => {
         if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
             appendNumber(e.key);
             updateDisplay();
@@ -148,9 +146,8 @@ window.addEventListener('keydown', (e) => {
             chooseOperation(e.key);
             updateDisplay();
         }
-        
 
-            if (e.key === 'Enter' || e.key === '=') {
+        if (e.key === 'Enter' || e.key === '=') {
             e.preventDefault();  
             compute();
             updateDisplay();
@@ -166,3 +163,6 @@ window.addEventListener('keydown', (e) => {
             updateDisplay();
         }
     });
+
+    updateDisplay();
+});
