@@ -31,5 +31,5 @@ function operate(num1, operator, num2) {
             return "Invalid Operator";
     }
 }
-operate(5, '+', 3);
-operate(10, '/', 2);
+console.log (operate(5, '+', 3) +
+operate(10, '/', 2));
