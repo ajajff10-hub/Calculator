@@ -1,3 +1,5 @@
+let lastOperator = null;
+let lastOperand = null;
 function add(num1, num2) {
   return num1 + num2;
 }
@@ -133,17 +135,30 @@ function chooseOperator(selectedOperator) {
 }
 
 function calculate() {
-  if (operator === null || shouldResetDisplay) return;
+  if (operator === null && lastOperator === null) return;
 
-  const oldPrevious = previousOperand;
-  const oldCurrent = currentOperand;
-  const oldOperator = operator;
+  let firstNumber;
+  let secondNumber;
+  let usedOperator;
 
-  const result = operate(operator, previousOperand, currentOperand);
+  if (operator !== null && !shouldResetDisplay) {
+    firstNumber = previousOperand;
+    secondNumber = currentOperand;
+    usedOperator = operator;
+
+    lastOperator = operator;
+    lastOperand = currentOperand;
+  } else {
+    firstNumber = currentOperand;
+    secondNumber = lastOperand;
+    usedOperator = lastOperator;
+  }
+
+  const result = operate(usedOperator, firstNumber, secondNumber);
   currentOperand = roundResult(result).toString();
 
   history.unshift(
-    `${oldPrevious} ${getSymbol(oldOperator)} ${oldCurrent} = ${currentOperand}`
+    `${firstNumber} ${getSymbol(usedOperator)} ${secondNumber} = ${currentOperand}`
   );
 
   updateHistory();
@@ -174,6 +189,8 @@ function clear() {
   previousOperand = "";
   operator = null;
   shouldResetDisplay = false;
+  lastOperator = null;
+  lastOperand = null;
 }
 
 function clearEntry() {
