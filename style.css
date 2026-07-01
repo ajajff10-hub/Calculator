@@ -11,14 +11,14 @@ body {
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
+  padding: 16px;
 }
 
 .calculator {
-  width: 430px;
-  max-width: 95vw;
+  width: min(95vw, 520px);
   background: #202020;
-  padding: 12px;
-  border-radius: 14px;
+  padding: clamp(10px, 2vw, 18px);
+  border-radius: clamp(12px, 3vw, 24px);
   position: relative;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
 }
@@ -27,7 +27,7 @@ body {
   background: transparent;
   border: none;
   color: white;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
   cursor: pointer;
   margin: 8px 8px 0;
 }
@@ -61,8 +61,8 @@ body {
 }
 
 .display {
-  height: 135px;
-  padding: 15px;
+  height: clamp(110px, 24vw, 170px);
+  padding: clamp(12px, 3vw, 22px);
   color: white;
   text-align: right;
   display: flex;
@@ -73,13 +73,13 @@ body {
 
 #previousOperand {
   color: #a8a8a8;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 2.8vw, 1.4rem);
   min-height: 28px;
 }
 
 #currentOperand {
   color: white;
-  font-size: 4rem;
+  font-size: clamp(3rem, 10vw, 5rem);
   word-break: break-all;
   transition: font-size 0.2s ease;
 }
@@ -87,15 +87,16 @@ body {
 .buttons-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  gap: clamp(4px, 1vw, 8px);
 }
 
 .btn {
-  height: 76px;
+  aspect-ratio: 1 / 0.75;
+  min-height: 58px;
   border: none;
-  border-radius: 6px;
+  border-radius: clamp(6px, 1.5vw, 12px);
   color: white;
-  font-size: 1.7rem;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
   cursor: pointer;
   background: #3a3a3a;
 }
@@ -118,33 +119,50 @@ body {
 
 .operator {
   background: #2f2f2f;
-  font-size: 2rem;
 }
 
 .equals {
   grid-column: span 4;
+  aspect-ratio: 4 / 0.75;
   background: #e27bd8;
   color: #111;
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
 .error {
   color: #ff5c5c !important;
-  font-size: 2rem !important;
+  font-size: clamp(1.5rem, 5vw, 2.2rem) !important;
+}
+
+@media (min-width: 900px) {
+  .calculator {
+    width: 560px;
+  }
 }
 
 @media (max-width: 480px) {
+  body {
+    padding: 0;
+  }
+
   .calculator {
     width: 100vw;
     min-height: 100vh;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .display {
+    flex: 1;
+    min-height: 150px;
+  }
+
+  .buttons-grid {
+    margin-top: auto;
   }
 
   .btn {
-    height: 72px;
-  }
-
-  #currentOperand {
-    font-size: 3.3rem;
+    min-height: 68px;
   }
 }
