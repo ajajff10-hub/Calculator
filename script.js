@@ -60,3 +60,29 @@ numberButtons.forEach(button => {
         updateDisplay();
     });
 });
+
+function clear() {
+    currentOperand = '0';
+    previousOperand = '';
+    operation = null;
+}
+function deleteNumber() {
+    if (currentOperand === '0') return;
+
+    currentOperand = currentOperand.toString().slice(0, -1);
+    if (currentOperand === '') {
+        currentOperand = '0';
+    }
+}
+const clearButton = document.querySelector('[data-action="clear"]');
+const deleteButton = document.querySelector('[data-action="delete"]');
+
+clearButton.addEventListener('click', () => {
+    clear();
+    updateDisplay();
+});
+
+deleteButton.addEventListener('click', () => {
+    deleteNumber();
+    updateDisplay();
+});
