@@ -1,26 +1,20 @@
-function add(num1, num2) {
-    return num1 + num2;
+function add(num1, num2) { 
+    return num1 + num2; 
 }
-
-function subtract(num1, num2) {
-    return num1 - num2;
+function subtract(num1, num2) { 
+    return num1 - num2; 
 }
-
-function multiply(num1, num2) {
-    return num1 * num2;
+function multiply(num1, num2) { 
+    return num1 * num2; 
 }
-
-function divide(num1, num2) {
-    if (num2 === 0) {
-        return "Nice try!";
-    }
-    return num1 / num2;
+function divide(num1, num2) { 
+    if (num2 === 0) return "Nice try!"; 
+    return num1 / num2; 
 }
 
 function operate(num1, operator, num2) {
     num1 = Number(num1);
     num2 = Number(num2);
-
     switch (operator) {
         case '+': return add(num1, num2);
         case '-': return subtract(num1, num2);
@@ -31,7 +25,6 @@ function operate(num1, operator, num2) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    
     const previousOperandElement = document.getElementById('previousOperand');
     const currentOperandElement = document.getElementById('currentOperand');
 
@@ -39,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let previousOperand = '';
     let operation = null;
     let shouldResetDisplay = false; 
+
+    function roundResult(number) {
+        if (typeof number === 'string') return number; 
+        return Math.round(number * 100000) / 100000;
+    }
 
     function updateDisplay() {
         currentOperandElement.innerText = currentOperand;
@@ -71,13 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function deleteNumber() {
         if (currentOperand === '0') return;
         currentOperand = currentOperand.toString().slice(0, -1);
-        if (currentOperand === '') {
-            currentOperand = '0'; 
-        }
+        if (currentOperand === '') { currentOperand = '0'; }
     }
 
     function chooseOperation(selectedOperation) {
         if (currentOperand === '0' && previousOperand === '') return; 
+        
+        if (previousOperand !== '') {
+            compute();
+        }
         
         operation = selectedOperation;
         previousOperand = currentOperand; 
@@ -93,21 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         computation = operate(prev, operation, current);
         
-        currentOperand = computation.toString();
+        currentOperand = roundResult(computation).toString();
         operation = null;
         previousOperand = '';
     }
 
-    const numberButtons = document.querySelectorAll('[data-number]');
-    numberButtons.forEach(button => {
+    document.querySelectorAll('[data-number]').forEach(button => {
         button.addEventListener('click', () => {
             appendNumber(button.getAttribute('data-number'));
             updateDisplay();
         });
     });
 
-    const operatorButtons = document.querySelectorAll('[data-operator]');
-    operatorButtons.forEach(button => {
+    document.querySelectorAll('[data-operator]').forEach(button => {
         button.addEventListener('click', () => {
             chooseOperation(button.getAttribute('data-operator'));
             updateDisplay();
