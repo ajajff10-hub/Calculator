@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Calculator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <main class="container">
-        <article class="calculator">
-            
-            <output class="display-wrapper" id="calculatorDisplay" aria-live="polite">
-                <div class="display-secondary" id="previousOperand"></div>
-                <div class="display-main" id="currentOperand">0</div>
-            </output>
-            
-            <section class="buttons-grid" aria-label="Calculator Keypad">
-                <button class="btn btn-function" data-action="clear">AC</button>
-                <button class="btn btn-function" data-action="delete">⌫</button>
-                <button class="btn btn-operator" data-operator="/">÷</button>
-                <button class="btn btn-operator" data-operator="*">×</button>
+  <main class="calculator">
+    <output class="display">
+      <div id="previousOperand"></div>
+      <div id="currentOperand">0</div>
+    </output>
 
-                <button class="btn btn-number" data-number="7">7</button>
-                <button class="btn btn-number" data-number="8">8</button>
-                <button class="btn btn-number" data-number="9">9</button>
-                <button class="btn btn-operator" data-operator="-">-</button>
+    <section class="buttons-grid">
+      <button class="btn blue" data-action="clear">AC</button>
+      <button class="btn blue" data-action="sign">+/-</button>
+      <button class="btn blue" data-action="percent">%</button>
+      <button class="btn orange" data-operator="/">/</button>
 
-                <button class="btn btn-number" data-number="4">4</button>
-                <button class="btn btn-number" data-number="5">5</button>
-                <button class="btn btn-number" data-number="6">6</button>
-                <button class="btn btn-operator" data-operator="+">+</button>
+      <button class="btn number" data-number="7">7</button>
+      <button class="btn number" data-number="8">8</button>
+      <button class="btn number" data-number="9">9</button>
+      <button class="btn orange" data-operator="*">*</button>
 
-                <button class="btn btn-number" data-number="1">1</button>
-                <button class="btn btn-number" data-number="2">2</button>
-                <button class="btn btn-number" data-number="3">3</button>
-                <button class="btn btn-operator btn-equals" data-action="calculate">=</button>
-                
-                <button class="btn btn-number btn-number-zero" data-number="0">0</button>
-                <button class="btn btn-number" data-number=".">.</button>
-            </section>
-        </article>
-    </main>
+      <button class="btn number" data-number="4">4</button>
+      <button class="btn number" data-number="5">5</button>
+      <button class="btn number" data-number="6">6</button>
+      <button class="btn orange" data-operator="-">-</button>
 
-    <script src="script.js" defer></script>
+      <button class="btn number" data-number="1">1</button>
+      <button class="btn number" data-number="2">2</button>
+      <button class="btn number" data-number="3">3</button>
+      <button class="btn orange" data-operator="+">+</button>
+
+      <button class="btn number zero" data-number="0">0</button>
+      <button class="btn number" data-number=".">.</button>
+      <button class="btn orange" data-action="calculate">=</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
