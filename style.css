@@ -1,3 +1,6 @@
+Replace only your **`style.css`** with this:
+
+```css
 * {
   margin: 0;
   padding: 0;
@@ -9,90 +12,98 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eef7f7;
+  background: #f2f4f8;
   font-family: Arial, sans-serif;
 }
 
 .calculator {
-  width: 640px;
+  width: 420px;
   max-width: 95vw;
-  background: #111;
-  padding: 15px;
-  border-radius: 4px;
-  border: 8px solid #2b2b2b;
+  background: #1c1c1c;
+  padding: 14px;
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
 }
 
 .display {
   height: 150px;
-  background: #b7bebc;
-  border: 7px solid #000;
-  margin-bottom: 10px;
+  background: #1c1c1c;
   padding: 20px;
+  margin-bottom: 12px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   text-align: right;
   overflow: hidden;
 }
 
 #previousOperand {
-  font-size: 1.6rem;
-  color: #333;
+  font-size: 1.3rem;
+  color: #a5a5a5;
   min-height: 30px;
 }
 
 #currentOperand {
-  font-size: 3.5rem;
-  color: #000;
+  font-size: 3.8rem;
+  color: #ffffff;
   word-break: break-all;
 }
 
 .buttons-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 10px;
 }
 
 .btn {
-  height: 118px;
+  height: 85px;
   border: none;
-  border-radius: 6px;
-  font-size: 2.1rem;
+  border-radius: 50%;
+  font-size: 2rem;
   cursor: pointer;
-  color: #000;
+  color: #ffffff;
+  background: #333333;
 }
 
 .btn:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.2);
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
 .blue {
-  background: #2491f2;
+  background: #a5a5a5;
+  color: #000000;
 }
 
 .number {
-  background: #268683;
+  background: #333333;
 }
 
 .orange {
-  background: #ff8c1a;
+  background: #ff9f0a;
+  color: #ffffff;
 }
 
 .zero {
   grid-column: span 2;
+  border-radius: 45px;
+  text-align: left;
+  justify-content: flex-start;
+  padding-left: 32px;
 }
 
 .error {
   font-size: 2rem !important;
+  color: #ff453a !important;
 }
 
 @media (max-width: 500px) {
   .calculator {
-    padding: 10px;
+    width: 350px;
+    padding: 12px;
   }
 
   .display {
@@ -100,11 +111,12 @@ body {
   }
 
   #currentOperand {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 
   .btn {
-    height: 80px;
+    height: 70px;
     font-size: 1.6rem;
   }
 }
+```
