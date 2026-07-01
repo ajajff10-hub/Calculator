@@ -18,31 +18,31 @@ body {
   max-width: 95vw;
   background: #202020;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 14px;
   position: relative;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
 }
 
 .history-btn {
   background: transparent;
-  color: white;
   border: none;
+  color: white;
   font-size: 2rem;
   cursor: pointer;
-  margin: 8px;
+  margin: 8px 8px 0;
 }
 
 .history-panel {
   display: none;
   position: absolute;
-  top: 55px;
+  top: 58px;
   left: 12px;
   right: 12px;
   background: #2b2b2b;
   color: white;
   border-radius: 10px;
   padding: 15px;
-  z-index: 5;
+  z-index: 10;
   max-height: 220px;
   overflow-y: auto;
 }
@@ -53,19 +53,17 @@ body {
 
 .history-panel h3 {
   margin-bottom: 10px;
-  font-size: 1.2rem;
 }
 
 .history-item {
   padding: 8px 0;
   border-bottom: 1px solid #444;
-  font-size: 1rem;
 }
 
 .display {
-  height: 140px;
+  height: 135px;
+  padding: 15px;
   color: white;
-  padding: 20px 15px;
   text-align: right;
   display: flex;
   flex-direction: column;
@@ -74,12 +72,13 @@ body {
 }
 
 #previousOperand {
-  color: #b5b5b5;
-  font-size: 1.4rem;
+  color: #a8a8a8;
+  font-size: 1.3rem;
   min-height: 28px;
 }
 
 #currentOperand {
+  color: white;
   font-size: 4rem;
   word-break: break-all;
   transition: font-size 0.2s ease;
@@ -95,14 +94,14 @@ body {
   height: 76px;
   border: none;
   border-radius: 6px;
-  background: #323232;
   color: white;
   font-size: 1.7rem;
   cursor: pointer;
+  background: #3a3a3a;
 }
 
 .btn:hover {
-  background: #3d3d3d;
+  filter: brightness(1.15);
 }
 
 .btn:active {
@@ -110,7 +109,7 @@ body {
 }
 
 .function {
-  background: #2d2d2d;
+  background: #2f2f2f;
 }
 
 .number {
@@ -118,19 +117,15 @@ body {
 }
 
 .operator {
-  background: #2d2d2d;
+  background: #2f2f2f;
   font-size: 2rem;
 }
 
 .equals {
   grid-column: span 4;
-  background: #e07ad8;
+  background: #e27bd8;
   color: #111;
   font-size: 2rem;
-}
-
-.equals:hover {
-  background: #ec8ee5;
 }
 
 .error {
