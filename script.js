@@ -62,10 +62,8 @@ function resizeDisplayText() {
     currentOperandElement.style.fontSize = "3.3rem";
   } else if (digits <= 13) {
     currentOperandElement.style.fontSize = "2.7rem";
-  } else if (digits <= 16) {
-    currentOperandElement.style.fontSize = "2.2rem";
   } else {
-    currentOperandElement.style.fontSize = "1.8rem";
+    currentOperandElement.style.fontSize = "2.2rem";
   }
 }
 
@@ -98,11 +96,10 @@ function updateDisplay() {
     currentOperandElement.classList.remove("error");
   }
 
-  if (operator && previousOperand !== "") {
-    previousOperandElement.textContent = `${previousOperand} ${getSymbol(operator)}`;
-  } else {
-    previousOperandElement.textContent = "";
-  }
+  previousOperandElement.textContent =
+    operator && previousOperand !== ""
+      ? `${previousOperand} ${getSymbol(operator)}`
+      : "";
 }
 
 function appendNumber(number) {
@@ -210,7 +207,6 @@ function toggleSign() {
 
 function percent() {
   if (currentOperand === "Nice try!") return;
-
   currentOperand = roundResult(Number(currentOperand) / 100).toString();
 }
 
