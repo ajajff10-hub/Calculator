@@ -55,14 +55,29 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if ((currentOperand === '0' && number !== '.') || shouldResetDisplay) {
             currentOperand = number.toString();
-            shouldResetDisplay = false;
+            shouldResetDisplay = false; 
         } else {
             currentOperand = currentOperand.toString() + number.toString();
         }
     }
-    
+
+    function clear() {
+        currentOperand = '0';
+        previousOperand = '';
+        operation = null;
+        shouldResetDisplay = false;
+    }
+
+    function deleteNumber() {
+        if (currentOperand === '0') return;
+        currentOperand = currentOperand.toString().slice(0, -1);
+        if (currentOperand === '') {
+            currentOperand = '0'; 
+        }
+    }
+
     function chooseOperation(selectedOperation) {
-        if (currentOperand === '0' && previousOperand === '') return;
+        if (currentOperand === '0' && previousOperand === '') return; 
         
         operation = selectedOperation;
         previousOperand = currentOperand; 
@@ -82,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         operation = null;
         previousOperand = '';
     }
+
     const numberButtons = document.querySelectorAll('[data-number]');
     numberButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -105,5 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDisplay();
         });
     }
-        updateDisplay();
+
+    const clearButton = document.querySelector('[data-action="clear"]');
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            clear();
+            updateDisplay();
+        });
+    }
+
+    const deleteButton = document.querySelector('[data-action="delete"]');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', () => {
+            deleteNumber();
+            updateDisplay();
+        });
+    }
+
+    updateDisplay();
 });
