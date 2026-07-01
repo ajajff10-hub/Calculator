@@ -65,6 +65,7 @@ body {
 }
 
 .display-wrapper {
+    display: block; /* لضمان عمل التنسيق بشكل صحيح على عنصر output */
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
     border-radius: 1rem;
     padding: 1.5rem;
@@ -88,7 +89,7 @@ body {
     font-weight: 700;
     word-wrap: break-word;
     word-break: break-all;
-    max-height: 3rem;
+    max-height: 3.5rem;
     overflow: hidden;
     letter-spacing: -0.02em;
 }
@@ -112,6 +113,9 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn::before {
@@ -131,7 +135,6 @@ body {
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-    background: var(--border);
 }
 
 .btn:active {
@@ -167,11 +170,6 @@ body {
 
 .btn-operator:hover {
     background: var(--accent-light);
-    transform: translateY(-2px);
-}
-
-.btn-operator:active {
-    transform: translateY(0);
 }
 
 .btn-function {
@@ -179,29 +177,17 @@ body {
     color: white;
     font-size: 0.95rem;
     font-weight: 600;
-    width: auto;
-    padding: 12px 20px;
 }
-
 
 .btn-function:hover {
     background: var(--primary-light);
-    transform: translateY(-2px);
-}
-
-.btn-function:active {
-    transform: translateY(0);
 }
 
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
-}
-
-.btn:disabled:hover {
-    transform: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Error state */
@@ -234,4 +220,3 @@ body {
         font-size: 1.1rem;
     }
 }
-
