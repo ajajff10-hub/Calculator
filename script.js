@@ -11,7 +11,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-  if (num2 === 0) return "Nice try!";
+  if (num2 === 0) return "Cannot divide by 0!";
   return num1 / num2;
 }
 
@@ -90,7 +90,7 @@ function updateDisplay() {
   currentOperandElement.textContent = currentOperand;
   resizeDisplayText();
 
-  if (currentOperand === "Nice try!") {
+  if (currentOperand === "Cannot divide by 0!") {
     currentOperandElement.classList.add("error");
   } else {
     currentOperandElement.classList.remove("error");
@@ -103,7 +103,7 @@ function updateDisplay() {
 }
 
 function appendNumber(number) {
-  if (currentOperand === "Nice try!") clear();
+  if (currentOperand === "Cannot divide by 0!") clear();
 
   if (shouldResetDisplay) {
     currentOperand = number === "." ? "0." : number;
@@ -121,7 +121,7 @@ function appendNumber(number) {
 }
 
 function chooseOperator(selectedOperator) {
-  if (currentOperand === "Nice try!") return;
+  if (currentOperand === "Cannot divide by 0!") return;
 
   if (operator !== null && !shouldResetDisplay) {
     calculate();
@@ -182,7 +182,7 @@ function clearEntry() {
 }
 
 function deleteNumber() {
-  if (shouldResetDisplay || currentOperand === "Nice try!") {
+  if (shouldResetDisplay || currentOperand === "Cannot divide by 0!") {
     currentOperand = "0";
     shouldResetDisplay = false;
     return;
@@ -196,7 +196,7 @@ function deleteNumber() {
 }
 
 function toggleSign() {
-  if (currentOperand === "0" || currentOperand === "Nice try!") return;
+  if (currentOperand === "0" || currentOperand === "Cannot divide by 0!") return;
 
   if (currentOperand.startsWith("-")) {
     currentOperand = currentOperand.slice(1);
@@ -206,7 +206,7 @@ function toggleSign() {
 }
 
 function percent() {
-  if (currentOperand === "Nice try!") return;
+  if (currentOperand === "Cannot divide by 0!") return;
   currentOperand = roundResult(Number(currentOperand) / 100).toString();
 }
 
