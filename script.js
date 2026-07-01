@@ -39,9 +39,20 @@ let currentOperand = '0';
 let previousOperand = '';
 let operation = null;
 
+function roundResult(number) {
+        if (typeof number === 'string') return number; 
+        return Math.round(number * 100000) / 100000; 
+    }
+
 function updateDisplay() {
     currentOperandElement.innerText = currentOperand;
     previousOperandElement.innerText = previousOperand;
+    if (operation != null) {
+            let displaySymbol = operation === '*' ? '×' : operation === '/' ? '÷' : operation;
+            previousOperandElement.innerText = `${previousOperand} ${displaySymbol}`;
+        } else {
+            previousOperandElement.innerText = previousOperand;
+        }
 }
 
 function appendNumber(number) {
@@ -49,10 +60,51 @@ function appendNumber(number) {
     
     if (currentOperand === '0' && number !== '.') {
         currentOperand = number.toString();
+        shouldResetDisplay = false;
     } else {
         currentOperand = currentOperand.toString() + number.toString();
     }
 }
+
+function chooseOperation(selectedOperation) {
+        if (currentOperand === '0' && previousOperand === '') return;
+        if (previousOperand !== '') {
+            compute();
+        }
+        
+        operation = selectedOperation;
+        previousOperand = currentOperand;
+        shouldResetDisplay = true;
+    }
+
+    function compute() {
+        let computation;
+        const prev = parseFloat(previousOperand);
+        const current = parseFloat(currentOperand);
+        
+        if (isNaN(prev) || isNaN(current)) return;
+        
+        computation = operate(prev, operation, current);
+        
+        currentOperand = roundResult(computation).toString();
+        operation = null;
+        previousOperand = '';
+    }
+
+    function clear() {
+        currentOperand = '0';
+        previousOperand = '';
+        operation = null;
+        shouldResetDisplay = false;
+    }
+
+    function deleteNumber() {
+        if (currentOperand === '0') return;
+        currentOperand = currentOperand.toString().slice(0, -1);
+        if (currentOperand === '') {
+            currentOperand = '0';
+        }
+    }
 const numberButtons = document.querySelectorAll('[data-number]');
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -74,15 +126,45 @@ function deleteNumber() {
         currentOperand = '0';
     }
 }
-const clearButton = document.querySelector('[data-action="clear"]');
-const deleteButton = document.querySelector('[data-action="delete"]');
+const numberButtons = document.querySelectorAll('[data-number]');
+    numberButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            appendNumber(button.getAttribute('data-number'));
+            updateDisplay();
+        });
+    });
 
-clearButton.addEventListener('click', () => {
-    clear();
-    updateDisplay();
-});
+    const operatorButtons = document.querySelectorAll('[data-operator]');
+    operatorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            chooseOperation(button.getAttribute('data-operator'));
+            updateDisplay();
+        });
+    });
 
-deleteButton.addEventListener('click', () => {
-    deleteNumber();
+    const equalsButton = document.querySelector('[data-action="calculate"]');
+    if (equalsButton) {
+        equalsButton.addEventListener('click', () => {
+            compute();
+            updateDisplay();
+        });
+    }
+
+    const clearButton = document.querySelector('[data-action="clear"]');
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            clear();
+            updateDisplay();
+        });
+    }
+
+    const deleteButton = document.querySelector('[data-action="delete"]');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', () => {
+            deleteNumber();
+            updateDisplay();
+        });
+    }
+
     updateDisplay();
 });
