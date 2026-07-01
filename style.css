@@ -84,7 +84,7 @@ body {
 }
 
 .display-main {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: white;
     font-weight: 700;
     word-wrap: break-word;
@@ -101,10 +101,10 @@ body {
 }
 
 .btn {
-    padding: 1.25rem 0.75rem;
+    padding: 1rem 0.5rem;
     border: none;
-    border-radius: 0.875rem;
-    font-size: 1.25rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -116,6 +116,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+     aspect-ratio: 1
 }
 
 .btn::before {
@@ -160,6 +161,8 @@ body {
 
 .btn-number-zero {
     grid-column: span 2;
+    aspect-ratio: auto; 
+    font-size: 1.2rem;
 }
 
 .btn-operator {
@@ -175,8 +178,9 @@ body {
 .btn-function {
     background: var(--primary);
     color: white;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: 600;
+    aspect-ratio: auto; 
 }
 
 .btn-function:hover {
