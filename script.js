@@ -11,7 +11,7 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-  if (num2 === 0) return "Nice try! 😏";
+  if (num2 === 0) return "Nice try!";
   return num1 / num2;
 }
 
@@ -35,39 +35,78 @@ function operate(operator, num1, num2) {
 
 const previousOperandElement = document.getElementById("previousOperand");
 const currentOperandElement = document.getElementById("currentOperand");
+const historyPanel = document.getElementById("historyPanel");
+const historyList = document.getElementById("historyList");
 
 let currentOperand = "0";
 let previousOperand = "";
 let operator = null;
 let shouldResetDisplay = false;
+let history = [];
+
+function countDigits(value) {
+  return value.toString().replace(".", "").replace("-", "").length;
+}
+
+function canAddDigit(value, number) {
+  if (number === ".") return !value.includes(".");
+  return countDigits(value) < 16;
+}
+
+function resizeDisplayText() {
+  const digits = countDigits(currentOperand);
+
+  if (digits <= 7) {
+    currentOperandElement.style.fontSize = "4rem";
+  } else if (digits <= 10) {
+    currentOperandElement.style.fontSize = "3.3rem";
+  } else if (digits <= 13) {
+    currentOperandElement.style.fontSize = "2.7rem";
+  } else if (digits <= 16) {
+    currentOperandElement.style.fontSize = "2.2rem";
+  } else {
+    currentOperandElement.style.fontSize = "1.8rem";
+  }
+}
 
 function roundResult(number) {
   if (typeof number === "string") return number;
-  return Math.round(number * 100000) / 100000;
+
+  let result = Math.round(number * 100000000) / 100000000;
+  let resultText = result.toString();
+
+  if (countDigits(resultText) > 16) {
+    resultText = result.toExponential(8);
+  }
+
+  return resultText;
+}
+
+function getSymbol(op) {
+  if (op === "*") return "×";
+  if (op === "/") return "÷";
+  return op;
 }
 
 function updateDisplay() {
   currentOperandElement.textContent = currentOperand;
+  resizeDisplayText();
 
-  if (currentOperand === "Nice try! 😏") {
+  if (currentOperand === "Nice try!") {
     currentOperandElement.classList.add("error");
   } else {
     currentOperandElement.classList.remove("error");
   }
 
-  previousOperandElement.textContent =
-    operator && previousOperand !== "" ? `${previousOperand} ${operator}` : "";
+  if (operator && previousOperand !== "") {
+    previousOperandElement.textContent = `${previousOperand} ${getSymbol(operator)}`;
+  } else {
+    previousOperandElement.textContent = "";
+  }
 }
 
 function appendNumber(number) {
-  if (currentOperand === "Nice try! 😏") clear();
-
-  if (number === "." && currentOperand.includes(".")) return;
-
-  if (currentOperand === "0" && number !== ".") {
-    currentOperand = number;
-    return;
-  }
+  if (currentOperand === "Nice try!") clear();
 
   if (shouldResetDisplay) {
     currentOperand = number === "." ? "0." : number;
@@ -75,11 +114,17 @@ function appendNumber(number) {
     return;
   }
 
-  currentOperand += number;
+  if (!canAddDigit(currentOperand, number)) return;
+
+  if (currentOperand === "0" && number !== ".") {
+    currentOperand = number;
+  } else {
+    currentOperand += number;
+  }
 }
 
 function chooseOperator(selectedOperator) {
-  if (currentOperand === "Nice try! 😏") return;
+  if (currentOperand === "Nice try!") return;
 
   if (operator !== null && !shouldResetDisplay) {
     calculate();
@@ -93,12 +138,38 @@ function chooseOperator(selectedOperator) {
 function calculate() {
   if (operator === null || shouldResetDisplay) return;
 
-  const result = operate(operator, previousOperand, currentOperand);
+  const oldPrevious = previousOperand;
+  const oldCurrent = currentOperand;
+  const oldOperator = operator;
 
+  const result = operate(operator, previousOperand, currentOperand);
   currentOperand = roundResult(result).toString();
+
+  history.unshift(
+    `${oldPrevious} ${getSymbol(oldOperator)} ${oldCurrent} = ${currentOperand}`
+  );
+
+  updateHistory();
+
   previousOperand = "";
   operator = null;
   shouldResetDisplay = true;
+}
+
+function updateHistory() {
+  if (history.length === 0) {
+    historyList.textContent = "No history yet";
+    return;
+  }
+
+  historyList.innerHTML = "";
+
+  history.forEach(item => {
+    const div = document.createElement("div");
+    div.classList.add("history-item");
+    div.textContent = item;
+    historyList.appendChild(div);
+  });
 }
 
 function clear() {
@@ -108,8 +179,13 @@ function clear() {
   shouldResetDisplay = false;
 }
 
-function backspace() {
-  if (shouldResetDisplay || currentOperand === "Nice try! 😏") {
+function clearEntry() {
+  currentOperand = "0";
+  shouldResetDisplay = false;
+}
+
+function deleteNumber() {
+  if (shouldResetDisplay || currentOperand === "Nice try!") {
     currentOperand = "0";
     shouldResetDisplay = false;
     return;
@@ -123,7 +199,7 @@ function backspace() {
 }
 
 function toggleSign() {
-  if (currentOperand === "0" || currentOperand === "Nice try! 😏") return;
+  if (currentOperand === "0" || currentOperand === "Nice try!") return;
 
   if (currentOperand.startsWith("-")) {
     currentOperand = currentOperand.slice(1);
@@ -133,8 +209,9 @@ function toggleSign() {
 }
 
 function percent() {
-  if (currentOperand === "Nice try! 😏") return;
-  currentOperand = (Number(currentOperand) / 100).toString();
+  if (currentOperand === "Nice try!") return;
+
+  currentOperand = roundResult(Number(currentOperand) / 100).toString();
 }
 
 document.querySelectorAll("[data-number]").forEach(button => {
@@ -161,6 +238,16 @@ document.querySelector("[data-action='clear']").addEventListener("click", () => 
   updateDisplay();
 });
 
+document.querySelector("[data-action='clear-entry']").addEventListener("click", () => {
+  clearEntry();
+  updateDisplay();
+});
+
+document.querySelector("[data-action='delete']").addEventListener("click", () => {
+  deleteNumber();
+  updateDisplay();
+});
+
 document.querySelector("[data-action='sign']").addEventListener("click", () => {
   toggleSign();
   updateDisplay();
@@ -169,6 +256,10 @@ document.querySelector("[data-action='sign']").addEventListener("click", () => {
 document.querySelector("[data-action='percent']").addEventListener("click", () => {
   percent();
   updateDisplay();
+});
+
+document.querySelector("[data-action='history']").addEventListener("click", () => {
+  historyPanel.classList.toggle("show");
 });
 
 window.addEventListener("keydown", event => {
@@ -190,7 +281,7 @@ window.addEventListener("keydown", event => {
   }
 
   if (event.key === "Backspace") {
-    backspace();
+    deleteNumber();
   }
 
   if (event.key === "Escape") {
