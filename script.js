@@ -31,3 +31,32 @@ function operate(num1, operator, num2) {
             return "Invalid Operator";
     }
 }
+
+
+const previousOperandElement = document.getElementById('previousOperand');
+const currentOperandElement = document.getElementById('currentOperand');
+let currentOperand = '0';
+let previousOperand = '';
+let operation = null;
+
+function updateDisplay() {
+    currentOperandElement.innerText = currentOperand;
+    previousOperandElement.innerText = previousOperand;
+}
+
+function appendNumber(number) {
+    if (number === '.' && currentOperand.includes('.')) return;
+    
+    if (currentOperand === '0' && number !== '.') {
+        currentOperand = number.toString();
+    } else {
+        currentOperand = currentOperand.toString() + number.toString();
+    }
+}
+const numberButtons = document.querySelectorAll('[data-number]');
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        appendNumber(button.getAttribute('data-number'));
+        updateDisplay();
+    });
+});
