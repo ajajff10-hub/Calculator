@@ -1,168 +1,207 @@
-function add(num1, num2) { 
-    return num1 + num2; 
-}
-function subtract(num1, num2) { 
-    return num1 - num2; 
-}
-function multiply(num1, num2) { 
-    return num1 * num2; 
-}
-function divide(num1, num2) { 
-    if (num2 === 0) return "Nice try!"; 
-    return num1 / num2; 
+function add(num1, num2) {
+  return num1 + num2;
 }
 
-function operate(num1, operator, num2) {
-    num1 = Number(num1);
-    num2 = Number(num2);
-    switch (operator) {
-        case '+': return add(num1, num2);
-        case '-': return subtract(num1, num2);
-        case '*': return multiply(num1, num2);
-        case '/': return divide(num1, num2);
-        default: return "Invalid Operator";
-    }
+function subtract(num1, num2) {
+  return num1 - num2;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const previousOperandElement = document.getElementById('previousOperand');
-    const currentOperandElement = document.getElementById('currentOperand');
+function multiply(num1, num2) {
+  return num1 * num2;
+}
 
-    let currentOperand = '0';
-    let previousOperand = '';
-    let operation = null;
-    let shouldResetDisplay = false; 
+function divide(num1, num2) {
+  if (num2 === 0) return "Nice try! 😏";
+  return num1 / num2;
+}
 
-    function roundResult(number) {
-        if (typeof number === 'string') return number; 
-        return Math.round(number * 100000) / 100000;
-    }
+function operate(operator, num1, num2) {
+  num1 = Number(num1);
+  num2 = Number(num2);
 
-    function updateDisplay() {
-        currentOperandElement.innerText = currentOperand;
-        if (operation != null) {
-            let displaySymbol = operation === '*' ? '×' : operation === '/' ? '÷' : operation;
-            previousOperandElement.innerText = `${previousOperand} ${displaySymbol}`;
-        } else {
-            previousOperandElement.innerText = previousOperand;
-        }
-    }
+  switch (operator) {
+    case "+":
+      return add(num1, num2);
+    case "-":
+      return subtract(num1, num2);
+    case "*":
+      return multiply(num1, num2);
+    case "/":
+      return divide(num1, num2);
+    default:
+      return null;
+  }
+}
 
-    function appendNumber(number) {
-        if (number === '.' && currentOperand.includes('.')) return;
-        
-        if ((currentOperand === '0' && number !== '.') || shouldResetDisplay) {
-            currentOperand = number.toString();
-            shouldResetDisplay = false; 
-        } else {
-            currentOperand = currentOperand.toString() + number.toString();
-        }
-    }
+const previousOperandElement = document.getElementById("previousOperand");
+const currentOperandElement = document.getElementById("currentOperand");
 
-    function clear() {
-        currentOperand = '0';
-        previousOperand = '';
-        operation = null;
-        shouldResetDisplay = false;
-    }
+let currentOperand = "0";
+let previousOperand = "";
+let operator = null;
+let shouldResetDisplay = false;
 
-    function deleteNumber() {
-        if (currentOperand === '0') return;
-        currentOperand = currentOperand.toString().slice(0, -1);
-        if (currentOperand === '') { currentOperand = '0'; }
-    }
+function roundResult(number) {
+  if (typeof number === "string") return number;
+  return Math.round(number * 100000) / 100000;
+}
 
-    function chooseOperation(selectedOperation) {
-        if (currentOperand === '0' && previousOperand === '') return; 
-        
-        if (previousOperand !== '') {
-            compute();
-        }
-        
-        operation = selectedOperation;
-        previousOperand = currentOperand; 
-        shouldResetDisplay = true; 
-    }
+function updateDisplay() {
+  currentOperandElement.textContent = currentOperand;
 
-    function compute() {
-        let computation;
-        const prev = parseFloat(previousOperand);
-        const current = parseFloat(currentOperand);
-        
-        if (isNaN(prev) || isNaN(current)) return;
-        
-        computation = operate(prev, operation, current);
-        
-        currentOperand = roundResult(computation).toString();
-        operation = null;
-        previousOperand = '';
-    }
+  if (currentOperand === "Nice try! 😏") {
+    currentOperandElement.classList.add("error");
+  } else {
+    currentOperandElement.classList.remove("error");
+  }
 
-    document.querySelectorAll('[data-number]').forEach(button => {
-        button.addEventListener('click', () => {
-            appendNumber(button.getAttribute('data-number'));
-            updateDisplay();
-        });
-    });
+  previousOperandElement.textContent =
+    operator && previousOperand !== "" ? `${previousOperand} ${operator}` : "";
+}
 
-    document.querySelectorAll('[data-operator]').forEach(button => {
-        button.addEventListener('click', () => {
-            chooseOperation(button.getAttribute('data-operator'));
-            updateDisplay();
-        });
-    });
+function appendNumber(number) {
+  if (currentOperand === "Nice try! 😏") clear();
 
-    const equalsButton = document.querySelector('[data-action="calculate"]');
-    if (equalsButton) {
-        equalsButton.addEventListener('click', () => {
-            compute();
-            updateDisplay();
-        });
-    }
+  if (number === "." && currentOperand.includes(".")) return;
 
-    const clearButton = document.querySelector('[data-action="clear"]');
-    if (clearButton) {
-        clearButton.addEventListener('click', () => {
-            clear();
-            updateDisplay();
-        });
-    }
+  if (currentOperand === "0" && number !== ".") {
+    currentOperand = number;
+    return;
+  }
 
-    const deleteButton = document.querySelector('[data-action="delete"]');
-    if (deleteButton) {
-        deleteButton.addEventListener('click', () => {
-            deleteNumber();
-            updateDisplay();
-        });
-    }
+  if (shouldResetDisplay) {
+    currentOperand = number === "." ? "0." : number;
+    shouldResetDisplay = false;
+    return;
+  }
 
-    window.addEventListener('keydown', (e) => {
-        if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
-            appendNumber(e.key);
-            updateDisplay();
-        }
-        
-        if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
-            chooseOperation(e.key);
-            updateDisplay();
-        }
+  currentOperand += number;
+}
 
-        if (e.key === 'Enter' || e.key === '=') {
-            e.preventDefault();  
-            compute();
-            updateDisplay();
-        }
-        
-        if (e.key === 'Backspace') {
-            deleteNumber();
-            updateDisplay();
-        }
-        
-        if (e.key === 'Escape') {
-            clear();
-            updateDisplay();
-        }
-    });
+function chooseOperator(selectedOperator) {
+  if (currentOperand === "Nice try! 😏") return;
 
+  if (operator !== null && !shouldResetDisplay) {
+    calculate();
+  }
+
+  previousOperand = currentOperand;
+  operator = selectedOperator;
+  shouldResetDisplay = true;
+}
+
+function calculate() {
+  if (operator === null || shouldResetDisplay) return;
+
+  const result = operate(operator, previousOperand, currentOperand);
+
+  currentOperand = roundResult(result).toString();
+  previousOperand = "";
+  operator = null;
+  shouldResetDisplay = true;
+}
+
+function clear() {
+  currentOperand = "0";
+  previousOperand = "";
+  operator = null;
+  shouldResetDisplay = false;
+}
+
+function backspace() {
+  if (shouldResetDisplay || currentOperand === "Nice try! 😏") {
+    currentOperand = "0";
+    shouldResetDisplay = false;
+    return;
+  }
+
+  if (currentOperand.length === 1) {
+    currentOperand = "0";
+  } else {
+    currentOperand = currentOperand.slice(0, -1);
+  }
+}
+
+function toggleSign() {
+  if (currentOperand === "0" || currentOperand === "Nice try! 😏") return;
+
+  if (currentOperand.startsWith("-")) {
+    currentOperand = currentOperand.slice(1);
+  } else {
+    currentOperand = "-" + currentOperand;
+  }
+}
+
+function percent() {
+  if (currentOperand === "Nice try! 😏") return;
+  currentOperand = (Number(currentOperand) / 100).toString();
+}
+
+document.querySelectorAll("[data-number]").forEach(button => {
+  button.addEventListener("click", () => {
+    appendNumber(button.dataset.number);
     updateDisplay();
+  });
 });
+
+document.querySelectorAll("[data-operator]").forEach(button => {
+  button.addEventListener("click", () => {
+    chooseOperator(button.dataset.operator);
+    updateDisplay();
+  });
+});
+
+document.querySelector("[data-action='calculate']").addEventListener("click", () => {
+  calculate();
+  updateDisplay();
+});
+
+document.querySelector("[data-action='clear']").addEventListener("click", () => {
+  clear();
+  updateDisplay();
+});
+
+document.querySelector("[data-action='sign']").addEventListener("click", () => {
+  toggleSign();
+  updateDisplay();
+});
+
+document.querySelector("[data-action='percent']").addEventListener("click", () => {
+  percent();
+  updateDisplay();
+});
+
+window.addEventListener("keydown", event => {
+  if (event.key >= "0" && event.key <= "9") {
+    appendNumber(event.key);
+  }
+
+  if (event.key === ".") {
+    appendNumber(".");
+  }
+
+  if (["+", "-", "*", "/"].includes(event.key)) {
+    chooseOperator(event.key);
+  }
+
+  if (event.key === "Enter" || event.key === "=") {
+    event.preventDefault();
+    calculate();
+  }
+
+  if (event.key === "Backspace") {
+    backspace();
+  }
+
+  if (event.key === "Escape") {
+    clear();
+  }
+
+  if (event.key === "%") {
+    percent();
+  }
+
+  updateDisplay();
+});
+
+updateDisplay();
