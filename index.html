@@ -7,18 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="calculator">
-            <div class="display-wrapper">
+    <main class="container">
+        <article class="calculator">
+            
+            <output class="display-wrapper" id="calculatorDisplay" aria-live="polite">
                 <div class="display-secondary" id="previousOperand"></div>
                 <div class="display-main" id="currentOperand">0</div>
-            </div>
+            </output>
             
-            <div class="buttons-grid">
+            <section class="buttons-grid" aria-label="Calculator Keypad">
                 <button class="btn btn-function" data-action="clear">Clear</button>
                 <button class="btn btn-function" data-action="delete">Backspace</button>
-                <button class="btn btn-operator" data-operator="÷">÷</button>
-                <button class="btn btn-operator" data-operator="×">×</button>
+                <button class="btn btn-operator" data-operator="/">÷</button>
+                <button class="btn btn-operator" data-operator="*">×</button>
 
                 <button class="btn btn-number" data-number="7">7</button>
                 <button class="btn btn-number" data-number="8">8</button>
@@ -33,15 +34,14 @@
                 <button class="btn btn-number" data-number="1">1</button>
                 <button class="btn btn-number" data-number="2">2</button>
                 <button class="btn btn-number" data-number="3">3</button>
-                <button class="btn btn-operator" data-operator="=">=</button>
+                <button class="btn btn-operator" data-action="calculate">=</button>
 
                 <button class="btn btn-number btn-number-zero" data-number="0">0</button>
                 <button class="btn btn-number" data-number=".">.</button>
-            </div>
-        </div>
-    </div>
+            </section>
+        </article>
+    </main>
 
     <script src="script.js"></script>
 </body>
 </html>
-
